@@ -1,0 +1,26 @@
+{
+  "name": "employee-management-system",
+  "version": "1.0.0",
+  "description": "![GitHub](https://img.shields.io/github/license/Ryan-Hatfield/Employee-Management-System) # Employee-Management-System An application that allows a business owner to view and manage the departments, roles and employees in their company.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ryan-Hatfield/Employee-Management-System.git"
+  },
+  "author": "Ryan Hatfield",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ryan-Hatfield/Employee-Management-System/issues"
+  },
+  "homepage": "https://github.com/Ryan-Hatfield/Employee-Management-System#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "dotenv": "^8.2.0",
+    "inquirer": "^7.0.1",
+    "mysql": "^2.17.1"
+  }
+}
