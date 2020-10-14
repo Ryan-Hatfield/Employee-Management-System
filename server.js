@@ -1,7 +1,7 @@
 //---Dependencies
-require("console.table");
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+require('console.table');
 require("dotenv").config();
 
 //---Conection setup
@@ -39,9 +39,9 @@ function startProgram() {
     programMenu(res.choices)
   });
 }
-function programMenu(options) {
-  switch (options) {
-    case "View all employess":
+function programMenu(res) {
+  switch (res) {
+    case "View all employees":
       viewAllEmployees();
       break;
     case "View all departments":
@@ -63,33 +63,38 @@ function programMenu(options) {
       updateEmployeeRole();
       break;
     case "Exit management system":
-      exit();
+      exitProgram();
   }
 }
 //---Function to view all the employees.
 function viewAllEmployees() {
-  connection.query("", function (err, res) {
+  connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;", 
+  function (err, res) {
     console.table(res);
-    exitStart();
+    if (err) throw err;
+    startProgram();
   });
 }
 //---Function to view all the departments.
 function viewAllDepartments() {
-  connection.query("", function (err, res) {
+  connection.query("SELECT * FROM department", function (err, res) {
     console.table(res);
-    exitStart();
+    if (err) throw err;
+    startProgram();
   });
 }
 //---Function to view all the roles.
 function viewAllRoles() {
-  connection.query("", function (err, res) {
+  connection.query("SELECT * from role", 
+  function (err, res) {
     console.table(res);
-    exitStart();
+    if (err) throw err;
+    startProgram();
   });
 }
 //---Function to add an employee.
 function addEmployee() {
-  
+
 }
 
 //---Function to add a department.
@@ -109,13 +114,8 @@ function updateEmployeeRole() {
 
 }
 
-
-//---Function to exit the employee management system or start the program over again.
-function exitStart() {
-
-}
-
 //---Function to exit the employee managment system.
-function exit() {
-
+function exitProgram() {
+  connection.end();
+  process.exit();
 }
