@@ -4,7 +4,7 @@ CREATE DATABASE employee_management_db;
 
 USE employee_management_db;
 
-CREATE TABLE departments (
+CREATE TABLE department (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
 );
@@ -27,12 +27,12 @@ CREATE TABLE employees (
     FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
 
---Inserting the various departments into the "departments" table.
+-- Inserting the various departments into the "departments" table.
 
 INSERT INTO department (name)
 VALUES ("Operations"), ("Accounting"), ("Management"), ("Engineering");
 
---Inserting the various roles into the "roles" table.
+-- Inserting the various roles into the "roles" table.
 
 INSERT INTO role (title, salary, department_id)
 VALUES ("Field Operator", 80000, 1),
@@ -42,7 +42,7 @@ VALUES ("Field Operator", 80000, 1),
 ("CEO", 200000, 3), 
 ("Senior Engineer", 120000, 4);
 
---Inserting various employees into the "employees" table.
+-- Inserting various employees into the "employees" table.
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("Ryan", "Hatfield", 5, null),
