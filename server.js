@@ -17,4 +17,23 @@ var connection = mysql.createConnection({
   connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
+    startProgram();
   });
+
+function startProgram() {
+  inquirer.prompt({
+    type: "list",
+    message: "Welcome to the Employee Management System, what would you like to do?",
+    name: "choices",
+    choices: [
+      "View all employees",
+      "View all departments",
+      "View all roles",
+      "Add employee",
+      "Add department",
+      "Add role",
+      "Update employee role",
+      "Exit management system",
+    ]
+  })
+}

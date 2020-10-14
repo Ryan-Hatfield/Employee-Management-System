@@ -6,10 +6,9 @@ USE employee_management_db;
 
 CREATE TABLE department (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(30) NOT NULL,
+    name VARCHAR(30) NOT NULL
 );
-
-CREATE TABLE roles (
+CREATE TABLE role (
     id INT(10) AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(30) NOT NULL,
     salary DECIMAL(10,2) NOT NULL,
@@ -17,12 +16,12 @@ CREATE TABLE roles (
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
-CREATE TABLE employees (
-    id INT(10) AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE employee (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
-    last_name VARCHAR(30) NOT NULL,
-    role_id INT(10) NOT NULL,
-    manager_id INT(10),
+    last_name VARCHAR(30) NOT NULL, 
+    manager_id INT,
+    role_id INT,
     FOREIGN KEY (role_id) REFERENCES role(id),
     FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
@@ -46,8 +45,9 @@ VALUES ("Field Operator", 80000, 1),
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("Ryan", "Hatfield", 5, null),
-("John", "Smith", 2, "Ryan Hatfield"),
-("Scott", "Anderson", 3 , "Ryan Hatfield"),
-("Joe", "Jones", 4, "Ryan Hatfield"),
-("Mike", "Morris", 1, "Joe Jones"),
-("Emily", "Brown", 6, "John Smith");
+("John", "Smith", 2, 1),
+("Scott", "Anderson", 3 , 1),
+("Joe", "Jones", 4, 1),
+("Mike", "Morris", 1, 4),
+("Emily", "Brown", 6, 2);
+
