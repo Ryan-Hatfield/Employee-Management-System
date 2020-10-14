@@ -1,5 +1,5 @@
 //---Dependencies
-const consoleTable = require("console.table");
+require("console.table");
 const mysql = require("mysql");
 const inquirer = require("inquirer");
 require("dotenv").config();
@@ -35,5 +35,87 @@ function startProgram() {
       "Update employee role",
       "Exit management system",
     ]
-  })
+  }).then(function (res) {
+    programMenu(res.choices)
+  });
+}
+function programMenu(options) {
+  switch (options) {
+    case "View all employess":
+      viewAllEmployees();
+      break;
+    case "View all departments":
+      viewAllDepartments();
+      break;
+    case "View all roles":
+      viewAllRoles();
+      break;
+    case "Add employee":
+      addEmployee();
+      break;
+    case "Add department":
+      addDept();
+      break;
+    case "Add role":
+      addRole();
+      break;
+    case "Update employee role":
+      updateEmployeeRole();
+      break;
+    case "Exit management system":
+      exit();
+  }
+}
+//---Function to view all the employees.
+function viewAllEmployees() {
+  connection.query("", function (err, res) {
+    console.table(res);
+    exitStart();
+  });
+}
+//---Function to view all the departments.
+function viewAllDepartments() {
+  connection.query("", function (err, res) {
+    console.table(res);
+    exitStart();
+  });
+}
+//---Function to view all the roles.
+function viewAllRoles() {
+  connection.query("", function (err, res) {
+    console.table(res);
+    exitStart();
+  });
+}
+//---Function to add an employee.
+function addEmployee() {
+  
+}
+
+//---Function to add a department.
+function addDept() {
+
+}
+
+
+//---Function to add a role.
+function addRole() {
+
+}
+
+
+//---Function to update an employee role.
+function updateEmployeeRole() {
+
+}
+
+
+//---Function to exit the employee management system or start the program over again.
+function exitStart() {
+
+}
+
+//---Function to exit the employee managment system.
+function exit() {
+
 }
