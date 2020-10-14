@@ -23,7 +23,7 @@ var connection = mysql.createConnection({
 function startProgram() {
   inquirer.prompt({
     type: "list",
-    message: "Welcome to the Employee Management System, what would you like to do?",
+    message: "Please select below what you would like to do.",
     name: "choices",
     choices: [
       "View all employees",
@@ -62,7 +62,7 @@ function programMenu(res) {
     case "Update employee role":
       updateEmployeeRole();
       break;
-    case "Exit management system":
+    case "Exit employee management system":
       exitProgram();
   }
 }
@@ -92,16 +92,72 @@ function viewAllRoles() {
     startProgram();
   });
 }
+//---Function to obtain roles and employees from db.
+var roleList;
+var employeeList; 
+connection.connect(function (){
+  connection.query("SELECT * from role", function (error, res) {
+    roleList = res.map(role => ({ name: role.title, value: role.id }))
+  });
+  connection.query("SELECT * from employee", function (error, res) {
+    employeeList = res.map(emp => ({ name: `${emp.first_name} ${emp.last_name}`, value: emp.id }))
+  });
+}) 
 //---Function to add an employee.
 function addEmployee() {
-
+  inquirer.prompt([
+    {
+      type: 'input',
+      message: "First Name?",
+      name: "firstName",
+    },
+    {
+      type: "input",
+      message: "Last name?",
+      name: "lastName",
+    },
+    {
+      type: "list",
+      message: "Employee's role?",
+      name: "role",
+      choices: roleList
+    },
+    {
+      type: "list",
+      message: "Employee's manager?",
+      name: "manager",
+      choices: employeeList,
+    }
+  ]).then(function (response) {
+    connection.query("INSERT INTO employee SET ?",
+    {
+      first_name: response.firstName,
+      last_name: response.lastName,
+      role_id: response.role,
+      manager_id: response.manager
+    }, function (error) {
+      if (error) throw error;
+    })
+    startProgram();
+  })
 }
 
 //---Function to add a department.
 function addDept() {
-
+  inquirer.prompt([{
+    type: "input",
+    message: "New Department: ",
+    name: "name",
+  },
+  ]).then(function (res) {
+    connection.query("INSERT INTO department SET ?", { name: res.name },
+        function (err) {
+            if (err) throw err;
+            console.table(res);
+            startProgram();
+        });
+  });
 }
-
 
 //---Function to add a role.
 function addRole() {
