@@ -20,7 +20,7 @@ var connection = mysql.createConnection({
     startProgram();
   });
 
-function startProgram() {
+async function startProgram() {
   inquirer.prompt({
     type: "list",
     message: "Please select below what you would like to do.",
@@ -67,6 +67,7 @@ function programMenu(res) {
     
   }
 }
+
 //---Function to view all the employees.
 function viewAllEmployees() {
   connection.query("SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name AS department, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id LEFT JOIN employee manager on manager.id = employee.manager_id;", 
@@ -76,6 +77,7 @@ function viewAllEmployees() {
     startProgram();
   });
 }
+
 //---Function to view all the departments.
 function viewAllDepartments() {
   connection.query("SELECT * FROM department", function (err, res) {
@@ -84,6 +86,7 @@ function viewAllDepartments() {
     startProgram();
   });
 }
+
 //---Function to view all the roles.
 function viewAllRoles() {
   connection.query("SELECT * from role", 
@@ -93,6 +96,7 @@ function viewAllRoles() {
     startProgram();
   });
 }
+
 //---Function to obtain role, employee and department lists from db.
 var roleList;
 var employeeList; 
@@ -105,9 +109,10 @@ connection.connect(function (){
     employeeList = res.map(emp => ({ name: `${emp.first_name} ${emp.last_name}`, value: emp.id }))
   });
   connection.query("SELECT * from department", function (error, res) {
-    departmentList = res.map(department => ({ name: department.title, value: department.id }))
+    departmentList = res.map(department => ({ name: department.name, value: department.id }))
   });
 }) 
+
 //---Function to add an employee.
 function addEmployee() {
   inquirer.prompt([
