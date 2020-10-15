@@ -20,7 +20,11 @@ An application that allows a business owner to view and manage the departments, 
 * [Author](#Author)
 
 ## Installation
-User will open up a terminal and locate their file location and run "npm init" and then run npm install to install the "console.table", "dotenv", "inquirer", and "mysql" dependencies. Once the user has installed the required depencies they will need to creat a ".env" file and put MYSQLPW=(enter your password). Once all this is done the user will then run "node server.js"
+The user will need to upload the data found in the "schema,sql" file into the MySQL Workbench server.
+
+After the user has add the schema into their MySQL database they will need to do the following. 
+
+Open up a terminal and locate their file location and run "npm init" and then run npm install to install the "console.table", "dotenv", "inquirer", and "mysql" dependencies. Once the user has installed the required depencies they will need to creat a ".env" file and put MYSQLPW=(enter your password). Once all this is done the user will then run "node server.js"
 
 
 ## Usage
