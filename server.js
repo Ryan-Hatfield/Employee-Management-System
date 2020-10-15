@@ -62,8 +62,9 @@ function programMenu(res) {
     case "Update employee role":
       updateEmployeeRole();
       break;
-    case "Exit employee management system":
+    case "Exit management system":
       exitProgram();
+    
   }
 }
 //---Function to view all the employees.
@@ -92,15 +93,19 @@ function viewAllRoles() {
     startProgram();
   });
 }
-//---Function to obtain roles and employees from db.
+//---Function to obtain role, employee and department lists from db.
 var roleList;
 var employeeList; 
+var departmentList; 
 connection.connect(function (){
   connection.query("SELECT * from role", function (error, res) {
     roleList = res.map(role => ({ name: role.title, value: role.id }))
   });
   connection.query("SELECT * from employee", function (error, res) {
     employeeList = res.map(emp => ({ name: `${emp.first_name} ${emp.last_name}`, value: emp.id }))
+  });
+  connection.query("SELECT * from department", function (error, res) {
+    departmentList = res.map(department => ({ name: department.title, value: department.id }))
   });
 }) 
 //---Function to add an employee.
@@ -161,13 +166,53 @@ function addDept() {
 
 //---Function to add a role.
 function addRole() {
-
+  inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the name of the new employee role?",
+      name: "role"
+    },
+    {
+      type: "input",
+      message: "How much is the salary of the new role?",
+      name: "salary"
+    },
+    {
+      type: "list",
+      message: "In which department is the new role?",
+      name: "departmentId",
+      choices: departmentList
+    }
+  ])
+  .then(function (response) {
+    connection.query("INSERT INTO role SET ?",{
+      title: response.role,
+      salary: response.salary,
+      department_id: response.departmentId
+    })
+    startProgram();
+  })
 }
-
 
 //---Function to update an employee role.
 function updateEmployeeRole() {
-
+  inquirer.prompt([
+    {
+      type: "list",
+      message: "Which employee's role would you like to update?",
+      name: "employeeId",
+      choices: employeeList
+    },
+    {
+      type: "list",
+      message: "What is the employee's new role?",
+      name: "roleId",
+      choices: roleList
+    }
+  ]).then(function (response) {
+    connection.query(`UPDATE employee SET role_id = ${response.roleId} WHERE id = ${response.employeeId}`)
+    startProgram();
+  })
 }
 
 //---Function to exit the employee managment system.
